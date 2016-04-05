@@ -1,5 +1,7 @@
 package com.hartleylab.app.timesheet.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,10 +22,12 @@ import android.widget.ProgressBar;
 import com.hartleylab.app.timesheet.Model.HistoryDescription;
 import com.hartleylab.app.timesheet.R;
 import com.hartleylab.app.timesheet.loader.HistoryLoader;
+import com.hartleylab.app.timesheet.localNotification.MyReceiver;
 import com.hartleylab.app.timesheet.utilities.DividerItemDecoration;
 import com.hartleylab.app.timesheet.utilities.SharedPreferenceManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -35,14 +39,37 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
     private Adapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
+    private PendingIntent pendingIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+        setUpAlarmForNotification();
         setupToolbar();
         initiViews();
         getSupportLoaderManager().initLoader(R.string.id_history_loader, null, loaderCallbacks);
+    }
+
+    /**
+     * Function to set Alarm for notification
+     */
+    private void setUpAlarmForNotification() {
+        // Set the alarm to start at approximately 6:45 p.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 18);
+        calendar.set(Calendar.MINUTE, 45);
+
+        Intent myIntent = new Intent(DashBoardActivity.this, MyReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(DashBoardActivity.this, 0, myIntent, 0);
+
+        // With setInexactRepeating(), you have to use one of the AlarmManager interval
+        // constants--in this case, AlarmManager.INTERVAL_DAY.
+        AlarmManager alarmMgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     /**
@@ -125,12 +152,12 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
                     if (progressBar.getVisibility() == View.VISIBLE) {
                         progressBar.setVisibility(View.GONE);
                         swipeRefreshLayout.setVisibility(View.VISIBLE);
-                        if (!data.isEmpty()){
+                        if (!data.isEmpty()) {
                             historyDescriptionList.clear();
                             historyDescriptionList.addAll(data);
                             initRecyclerView(historyDescriptionList);
                         }
-                    }else if (!data.isEmpty()){
+                    } else if (!data.isEmpty()) {
                         swipeRefreshLayout.setRefreshing(false);
                         historyDescriptionList.clear();
                         historyDescriptionList.addAll(data);
@@ -165,7 +192,7 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
     private void onLogout() {
         SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager
                 (DashBoardActivity.this);
-        sharedPreferenceManager.setBooleanValue(getString(R.string.key_isLogin),false);
+        sharedPreferenceManager.setBooleanValue(getString(R.string.key_isLogin), false);
         startActivity(new Intent(DashBoardActivity.this, SplashScreenActivity.class));
         finish();
     }

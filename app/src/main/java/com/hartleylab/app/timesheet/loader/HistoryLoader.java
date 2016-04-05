@@ -88,9 +88,13 @@ public class HistoryLoader extends Loader<List<HistoryDescription>> {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        deliverResult(historyDescriptionList);
-                        Toast.makeText(getContext(), getContext().getString(R.string
-                                .err_server_not_reachable), Toast.LENGTH_LONG).show();
+                        if (historyDescriptionList != null){
+                            deliverResult(historyDescriptionList);
+                        }else {
+                            deliverResult(new ArrayList<HistoryDescription>());
+                            Toast.makeText(getContext(), getContext().getString(R.string
+                                    .err_server_not_reachable), Toast.LENGTH_LONG).show();
+                        }
                     }
                 }) {
                     @Override
@@ -126,7 +130,11 @@ public class HistoryLoader extends Loader<List<HistoryDescription>> {
                 List<HistoryDescription> tempList = historyDescriptionModel
                         .getHistoryDescriptionList();
                 if (tempList.isEmpty()) {
-                    deliverResult(historyDescriptionList);
+                    if (historyDescriptionList !=null){
+                        deliverResult(historyDescriptionList);
+                    }else {
+                        deliverResult(new ArrayList<HistoryDescription>());
+                    }
                 } else {
                     deliverResult(tempList);
                 }
@@ -136,7 +144,11 @@ public class HistoryLoader extends Loader<List<HistoryDescription>> {
             }
 
         } else {
-            deliverResult(historyDescriptionList);
+            if (historyDescriptionList !=null){
+                deliverResult(historyDescriptionList);
+            }else {
+                deliverResult(new ArrayList<HistoryDescription>());
+            }
             Toast.makeText(getContext(), getContext().getString(R.string
                     .err_server), Toast.LENGTH_LONG).show();
         }
