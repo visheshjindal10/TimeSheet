@@ -41,8 +41,8 @@ public class NotificationService extends Service {
         android.support.v4.app.NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 this).setSmallIcon(R.drawable.ic_notificationation)
                 .setColor(getResources().getColor(R.color.colorPrimary))
-                .setAutoCancel(true).setContentText("This seems to be the right time to log " +
-                        "hours!!");
+                .setContentTitle(getString(R.string.notification_title))
+                .setAutoCancel(true).setContentText(getString(R.string.notification_msg));
 
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity( this.getApplicationContext(),0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(pendingNotificationIntent);

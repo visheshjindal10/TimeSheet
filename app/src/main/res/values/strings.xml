@@ -168,4 +168,6 @@
     <string name="menu_logout">Logout</string>
     <string name="tv_ticket_number">Ticket Number</string>
     <string name="tv_logged_hours">Logged Hours</string>
+    <string name="notification_msg">This seems to be the right time to log hours!!</string>
+    <string name="notification_title">Log your work now!!</string>
 </resources>
