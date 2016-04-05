@@ -1,0 +1,6 @@
+<root>
+  <item name='android.database.sqlite.SQLiteDatabase CREATE_IF_NECESSARY'>
+    <annotation name='java.lang.annotation.Deprecated' />
+    <annotation name='android.support.annotation.NonNull' />
+  </item>
+</root>

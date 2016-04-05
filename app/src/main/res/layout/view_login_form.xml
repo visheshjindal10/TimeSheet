@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:id="@+id/llLoginContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilEmpID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintTextAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            >
+            <EditText
+                android:id="@+id/etEmpID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="HL-0123456789"
+                android:hint="@string/hint_emp_id"
+                android:inputType="textCapCharacters"
+                android:maxLength="6"
+                android:singleLine="true"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:errorEnabled="true"
+            app:hintTextAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            >
+            <EditText
+                android:id="@+id/etPasswordLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_password"
+                android:imeOptions="actionGo"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:elevation="@dimen/ten"
+            android:focusable="true"
+            android:text="@string/btn_login"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.Button"
+            />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/tvSignUpText"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:gravity="center"
+            android:text="@string/tv_new_user"
+            />
+
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/pb"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+</FrameLayout>

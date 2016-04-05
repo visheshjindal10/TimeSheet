@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    tools:context=".Model.LoogedHoursData"
+    tools:showIn="@layout/activity_items__data">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten">
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:singleLine="true"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            tools:text="Date"
+            />
+        <TextView
+            android:layout_marginTop="@dimen/ten"
+            android:id="@+id/tvProjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tvDate"
+            android:layout_toLeftOf="@id/tvDate"
+            android:layout_toStartOf="@id/tvDate"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            tools:text="Project Name"
+            />
+        <TextView
+            android:id="@+id/tvLoggedHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tvProjectName"
+            android:layout_marginTop="@dimen/ten"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            tools:text="Logged Hours"
+            />
+        <TextView
+            android:id="@+id/tvTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tvLoggedHours"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/tvProjectName"
+            android:layout_toLeftOf="@id/tvLoggedHours"
+            android:layout_toStartOf="@id/tvLoggedHours"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            tools:text="Project Name"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/click"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?selectableItemBackground"/>
+
+</FrameLayout>
+
