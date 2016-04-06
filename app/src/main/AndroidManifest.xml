@@ -43,9 +43,6 @@
             android:label="@string/title_activity_logged_hours"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <service android:name=".localNotification.NotificationService"
-                 android:enabled="true" />
-
         <receiver android:name=".localNotification.MyReceiver"/>
     </application>
 

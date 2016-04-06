@@ -88,8 +88,8 @@ public class HistoryLoader extends Loader<List<HistoryDescription>> {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (historyDescriptionList != null){
-                            deliverResult(historyDescriptionList);
+                        if (historyDescriptionList != null && !historyDescriptionList.isEmpty()){
+                            deliverResult(HistoryLoader.this.historyDescriptionList);
                         }else {
                             deliverResult(new ArrayList<HistoryDescription>());
                             Toast.makeText(getContext(), getContext().getString(R.string

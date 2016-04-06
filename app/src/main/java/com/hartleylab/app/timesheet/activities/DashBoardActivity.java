@@ -36,17 +36,24 @@ import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 public class DashBoardActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView rv;
     private List<HistoryDescription> historyDescriptionList = new ArrayList<>();
-    private Adapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
+    private SharedPreferenceManager sharedPreferenceManager;
     private PendingIntent pendingIntent;
+    private AlarmManager alarmMgr;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
-        setUpAlarmForNotification();
+        sharedPreferenceManager = new SharedPreferenceManager(this);
+        alarmMgr = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (!sharedPreferenceManager.getBooleanValue(getString(R.string.sp_key_isAlramRegistered))) {
+            sharedPreferenceManager.setBooleanValue(getString(R.string.sp_key_isAlramRegistered), true);
+            setUpAlarmForNotification();
+        }
         setupToolbar();
         initiViews();
         getSupportLoaderManager().initLoader(R.string.id_history_loader, null, loaderCallbacks);
@@ -63,12 +70,12 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
         calendar.set(Calendar.MINUTE, 45);
 
         Intent myIntent = new Intent(DashBoardActivity.this, MyReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(DashBoardActivity.this, 0, myIntent, 0);
+        pendingIntent = PendingIntent.getBroadcast(DashBoardActivity.this, 1234,
+                myIntent, 0);
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval
         // constants--in this case, AlarmManager.INTERVAL_DAY.
-        AlarmManager alarmMgr = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
@@ -81,7 +88,6 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
         initRecyclerView(historyDescriptionList);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-//        fetchDescription();
         FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -99,11 +105,18 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_logo);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayUseLogoEnabled(true);
+            getSupportActionBar().setLogo(R.drawable.ic_logo);
+        }
     }
 
+    /**
+     * Function to initiate Recycler View
+     *
+     * @param list Array List
+     */
     private void initRecyclerView(List<HistoryDescription> list) {
         rv.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -111,7 +124,7 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setReverseLayout(true);
         rv.setLayoutManager(linearLayoutManager);
-        adapter = new Adapter(list);
+        Adapter adapter = new Adapter(list,DashBoardActivity.this);
         rv.setAdapter(adapter);
         rv.addItemDecoration(new DividerItemDecoration(DashBoardActivity.this, VERTICAL));
         rv.setItemAnimator(new DefaultItemAnimator());
@@ -149,6 +162,7 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
 
                 @Override
                 public void onLoadFinished(Loader<List<HistoryDescription>> loader, List<HistoryDescription> data) {
+                    swipeRefreshLayout.setRefreshing(false);
                     if (progressBar.getVisibility() == View.VISIBLE) {
                         progressBar.setVisibility(View.GONE);
                         swipeRefreshLayout.setVisibility(View.VISIBLE);
@@ -158,7 +172,6 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
                             initRecyclerView(historyDescriptionList);
                         }
                     } else if (!data.isEmpty()) {
-                        swipeRefreshLayout.setRefreshing(false);
                         historyDescriptionList.clear();
                         historyDescriptionList.addAll(data);
                         initRecyclerView(historyDescriptionList);
@@ -190,9 +203,11 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
      * Function to logout of the application
      */
     private void onLogout() {
-        SharedPreferenceManager sharedPreferenceManager = new SharedPreferenceManager
-                (DashBoardActivity.this);
         sharedPreferenceManager.setBooleanValue(getString(R.string.key_isLogin), false);
+        if (alarmMgr != null){
+            alarmMgr.cancel(pendingIntent);
+        }
+        sharedPreferenceManager.setBooleanValue(getString(R.string.sp_key_isAlramRegistered),false);
         startActivity(new Intent(DashBoardActivity.this, SplashScreenActivity.class));
         finish();
     }

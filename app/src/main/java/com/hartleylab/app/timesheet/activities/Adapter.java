@@ -1,10 +1,12 @@
 package com.hartleylab.app.timesheet.activities;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.hartleylab.app.timesheet.Model.HistoryDescription;
@@ -19,9 +21,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private OnItemClickListener mOnItemClickListener;
     private List<HistoryDescription> historyDescriptionList = new ArrayList<>();
+    private String tempDate;
+    int tempColor;
+    private Context context;
 
-    public Adapter(List<HistoryDescription> historyDescriptionList) {
+    public Adapter(List<HistoryDescription> historyDescriptionList, Context context) {
         this.historyDescriptionList = historyDescriptionList;
+        this.context = context;
     }
 
     @Override
@@ -33,13 +39,37 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        this.setHasStableIds(true);
         HistoryDescription historyDescription = historyDescriptionList.get(position);
         if (historyDescription != null) {
-            holder.tvProjectName.setText(historyDescription.getProjectName());
-            holder.tvTicket.setText(historyDescription.getTicketNo());
             String date = DateUtil.getFormattedTime(historyDescription.getDate(),
                     DateUtil.LOGGED_DATE_FROM_API, DateUtil.LOGGED_DATE_FOR_LIST);
-            if (!TextUtils.isEmpty(date)) holder.tvDate.setText(date);
+
+            if (!TextUtils.isEmpty(date)) {
+//                if (TextUtils.isEmpty(tempDate)){
+//                    tempDate = date;
+//                    tempColor = ContextCompat.getColor(context,R.color.white);
+//                    holder.tvDate.setText(date);
+//                }else{
+//                    holder.tvDate.setText(date);
+//                    if (tempDate.equals(date)) {
+//                        holder.flContainer.setBackgroundColor(tempColor);
+//                    }else {
+//                        tempDate = date;
+//                        if (tempColor == ContextCompat.getColor(context,R.color.white)){
+//                            tempColor = ContextCompat.getColor(context,R.color.paper);
+//                            holder.flContainer.setBackgroundColor(tempColor);
+//                        }else {
+//                            tempColor = ContextCompat.getColor(context,R.color.white);
+//                            holder.flContainer.setBackgroundColor(tempColor);
+//                        }
+//                    }
+//                }
+                holder.tvDate.setText(date);
+            }
+
+            holder.tvProjectName.setText(historyDescription.getProjectName());
+            holder.tvTicket.setText(historyDescription.getTicketNo());
             holder.tvLoggedHours.setText(historyDescription.getLoggedHours());
         }
     }
@@ -50,9 +80,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public TextView tvTicket;
         public TextView tvDate;
         public TextView tvLoggedHours;
+        public FrameLayout flContainer;
 
         public ViewHolder(View v) {
             super(v);
+            flContainer = (FrameLayout) v.findViewById(R.id.container);
             tvProjectName = (TextView) v.findViewById(R.id.tvProjectName);
             tvTicket = (TextView) v.findViewById(R.id.tvTicket);
             tvDate = (TextView) v.findViewById(R.id.tvDate);

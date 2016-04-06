@@ -6,7 +6,7 @@
     <string name="app_name">Time Sheet</string>
     <string name="action_settings">Settings</string>
     <string name="toast_no_network">Please check your internet connection</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="error_msg">There might be a problem , Please try again !</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
@@ -170,4 +170,5 @@
     <string name="tv_logged_hours">Logged Hours</string>
     <string name="notification_msg">This seems to be the right time to log hours!!</string>
     <string name="notification_title">Log your work now!!</string>
+    <string name="sp_key_isAlramRegistered">isAlarmRegistered</string>
 </resources>

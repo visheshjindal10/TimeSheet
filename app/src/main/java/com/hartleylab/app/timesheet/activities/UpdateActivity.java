@@ -78,7 +78,7 @@ public class UpdateActivity extends AppCompatActivity implements AdapterView.OnI
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, String> data = new HashMap<String, String>(2);
+                Map<String, String> data;
                 data = (Map<String, String>) ProjectName.getSelectedItem();
 
                 Map<String, String> selectedDate = new HashMap<String, String>(2);
@@ -98,6 +98,11 @@ public class UpdateActivity extends AppCompatActivity implements AdapterView.OnI
                 }
                 if (TextUtils.isEmpty(description)) {
                     tvDescription.setError("Enter Description!!");
+                    return;
+                }
+                if (data == null || data.isEmpty()) {
+                    Snackbar.make(clContainer, "Enter Project First!!", Snackbar.LENGTH_LONG)
+                            .show();
                     return;
                 }
 
