@@ -171,4 +171,8 @@
     <string name="notification_msg">This seems to be the right time to log hours!!</string>
     <string name="notification_title">Log your work now!!</string>
     <string name="sp_key_isAlramRegistered">isAlarmRegistered</string>
+    <string name="err_enter_hours">Enter Hours First!!</string>
+    <string name="err_enter_ticket">Enter TicketNo!!</string>
+    <string name="err_description">Enter Description!!</string>
+    <string name="err_enter_project">Select Project first!!</string>
 </resources>

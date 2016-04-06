@@ -89,19 +89,19 @@ public class UpdateActivity extends AppCompatActivity implements AdapterView.OnI
                 String description = etDescription.getText().toString();
 
                 if (TextUtils.isEmpty(loggedHours)) {
-                    tvWorkedHours.setError("Enter Hours First!!");
+                    tvWorkedHours.setError(getString(R.string.err_enter_hours));
                     return;
                 }
                 if (TextUtils.isEmpty(ticketNo)) {
-                    tvTicketNumber.setError("Enter TicketNo!!");
+                    tvTicketNumber.setError(getString(R.string.err_enter_ticket));
                     return;
                 }
                 if (TextUtils.isEmpty(description)) {
-                    tvDescription.setError("Enter Description!!");
+                    tvDescription.setError(getString(R.string.err_description));
                     return;
                 }
                 if (data == null || data.isEmpty()) {
-                    Snackbar.make(clContainer, "Enter Project First!!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(clContainer, R.string.err_enter_project, Snackbar.LENGTH_LONG)
                             .show();
                     return;
                 }
