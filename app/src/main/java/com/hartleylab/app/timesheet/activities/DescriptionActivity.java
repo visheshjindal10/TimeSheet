@@ -31,7 +31,7 @@ public class DescriptionActivity extends AppCompatActivity {
         AppCompatTextView tvTicketNumber = (AppCompatTextView) findViewById(R.id.tvTicket);
         AppCompatTextView tvTimeStamp = (AppCompatTextView) findViewById(R.id.tvTimeStamp);
 
-
+        
         if (!TextUtils.isEmpty(descriptionModel.getProjectName()))
             tvProjectName.setText(descriptionModel.getProjectName());
 

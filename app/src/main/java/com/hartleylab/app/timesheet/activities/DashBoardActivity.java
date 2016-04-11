@@ -42,8 +42,6 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
     private PendingIntent pendingIntent;
     private AlarmManager alarmMgr;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,10 +146,13 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
     /**
      * Function to refreshList
      */
+
     private void refershItemList() {
+
         Intent intent = new Intent(HistoryLoader.ACTION);
         LocalBroadcastManager.getInstance(DashBoardActivity.this).sendBroadcast(intent);
     }
+
 
     private LoaderCallbacks<List<HistoryDescription>> loaderCallbacks =
             new LoaderCallbacks<List<HistoryDescription>>() {
@@ -191,6 +192,7 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_logout) {
@@ -203,6 +205,7 @@ public class DashBoardActivity extends AppCompatActivity implements SwipeRefresh
      * Function to logout of the application
      */
     private void onLogout() {
+
         sharedPreferenceManager.setBooleanValue(getString(R.string.key_isLogin), false);
         if (alarmMgr != null){
             alarmMgr.cancel(pendingIntent);

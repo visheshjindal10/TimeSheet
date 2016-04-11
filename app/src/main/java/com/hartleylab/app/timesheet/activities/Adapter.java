@@ -39,7 +39,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        this.setHasStableIds(true);
         HistoryDescription historyDescription = historyDescriptionList.get(position);
         if (historyDescription != null) {
             String date = DateUtil.getFormattedTime(historyDescription.getDate(),
